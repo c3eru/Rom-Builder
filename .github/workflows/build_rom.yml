@@ -1,0 +1,33 @@
+name: Rom Builder
+on: 
+  workflow_dispatch:
+defaults:
+  run:
+    shell: bash
+
+env:
+   my_bot_api: ${{ secrets.TG_TOKEN }}
+   my_telegram_id: ${{ secrets.TG_ID }}
+   my_dir: ~/NFS-project
+
+jobs:
+
+  build:
+    name: Deploy..
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+
+    - name: Test
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd $my_dir
+          rm -rf build_rom.sh
+          rom_name=$(grep init $my_dir/build_rom.sh -m 1 | cut -d / -f 4)
+          curl -s "https://api.telegram.org/bot${my_bot_api}/sendmessage" -d "disable_web_page_preview=true" -d "text=<code>Building Rom $rom_name</code> Started"
