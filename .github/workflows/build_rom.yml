@@ -32,23 +32,23 @@ jobs:
           cd $my_dir
           rm -rf build_rom.sh
           wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/build_rom.sh
-          echo =========================================
-          echo           msg Linux versions.
-          echo =========================================
+          echo ===============================
+          msg             Linux versions.
+          echo ===============================
           cat /etc/env*
-          echo =========================================
+          echo ===============================
           
-          echo =========================================
-          echo           msg Check user active.
-          echo =========================================
+          echo ===============================
+          msg            Check user active.
+          echo ===============================
           w
-          echo =========================================
+          echo ===============================
           
-          echo =========================================
-          echo             msg Disk available.
-          echo =========================================
+          echo ===============================
+          msg               Disk available.
+          echo ===============================
           df -h
-          echo =========================================
+          echo ===============================
 
     - name: Sync Rom
       uses: appleboy/ssh-action@master
