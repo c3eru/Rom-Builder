@@ -9,7 +9,7 @@ lunch aosp_rosy-userdebug
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=rosy
 export BUILD_HOSTNAME=userngebug
+curl -s https://api.telegram.org/bot$my_bot_api/sendMessage -d chat_id=$my_telegram_id -d text="$(echo "${var_cache_report_config}")"
 make bacon
 
-# upload rom for your telegram
-rclone copy out/target/product/$(grep unch $CIRRUS_WORKING_DIR/build_rom.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/*.zip cirrus:$(grep unch $CIRRUS_WORKING_DIR/build_rom.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1) -P
+# end
