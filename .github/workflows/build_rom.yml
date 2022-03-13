@@ -45,6 +45,7 @@ jobs:
           command="$(head $my_dir/build_rom.sh -n $(expr $(grep '# build rom' $my_dir/build_rom.sh -n | cut -f1 -d:) - 1))"
           mkdir -p $my_dir/$rom_name
           cd $my_dir/$rom_name
+          rm -rf .repo/local_manifests
           bash -c "$command" || true
 
     - name: Building Rom
