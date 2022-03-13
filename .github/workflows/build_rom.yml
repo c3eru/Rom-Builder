@@ -15,7 +15,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
-    - name: Notif Start
+    - name: Environment..
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -25,10 +25,30 @@ jobs:
         command_timeout: 1m
         proxy_timeout: 1m
         script: |
+          msg() {
+            echo -e "\e[1;32m$*\e[0m"
+          }
           my_dir="$(pwd)/NFS-project"
           cd $my_dir
           rm -rf build_rom.sh
           wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/build_rom.sh
+          echo =========================================
+          echo           msg Linux versions.
+          echo =========================================
+          cat /etc/env*
+          echo =========================================
+          
+          echo =========================================
+          echo           msg Check user active.
+          echo =========================================
+          w
+          echo =========================================
+          
+          echo =========================================
+          echo             msg Disk available.
+          echo =========================================
+          df -h
+          echo =========================================
 
     - name: Sync Rom
       uses: appleboy/ssh-action@master

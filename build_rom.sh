@@ -9,7 +9,6 @@ lunch aosp_rosy-userdebug
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=rosy
 export BUILD_HOSTNAME=userngebug
-curl -s https://api.telegram.org/bot$my_bot_api/sendMessage -d chat_id=$my_telegram_id -d text="$(echo "${var_cache_report_config}")"
 make bacon
 
 # end
