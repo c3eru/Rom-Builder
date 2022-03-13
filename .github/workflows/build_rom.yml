@@ -84,6 +84,7 @@ jobs:
           cd $my_dir/$rom_name
           export CCACHE_EXEC=/usr/bin/ccache
           export USE_CCACHE=1
+          export ALLOW_MISSING_DEPENDENCIES=true
           ccache -o compression=true
           ccache -o compression_level=1
           ccache -o limit_multiple=1
