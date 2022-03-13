@@ -68,12 +68,6 @@ inputs:
   debug:
     description: 'enable debug mode'
     default: false
-  my_bot_api:
-    description: 'telegram token'
-  my_telegram_id:
-    description: 'telegram chat id'
-  my_dir:
-    description: 'main directory'
 runs:
   using: 'docker'
   image: 'Dockerfile'
