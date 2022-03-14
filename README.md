@@ -1,4 +1,4 @@
-[![Rom Builder](https://github.com/NFS86/Rom-Builder/actions/workflows/build_rom.yml/badge.svg?branch=master)](https://github.com/NFS86/Rom-Builder/actions/workflows/build_rom.yml)
+Building Rom [![SparkOS](https://github.com/NFS86/Rom-Builder/actions/workflows/sparkos.yml/badge.svg)](https://github.com/NFS86/Rom-Builder/actions/workflows/sparkos.yml)
 
 # Rom-Builder
 

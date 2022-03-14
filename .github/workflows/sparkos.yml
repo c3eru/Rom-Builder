@@ -1,7 +1,6 @@
-name: Rom Builder
+name: SparkOS
 on: 
   workflow_dispatch:
-  push:
 defaults:
   run:
     shell: bash
@@ -30,8 +29,8 @@ jobs:
           }
           my_dir="$(pwd)/NFS-project"
           cd $my_dir
-          rm -rf build_rom.sh
-          wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/build_rom.sh
+          rm -rf sparkos.sh
+          wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/sparkos.sh
           echo ===========================================
           msg             Linux versions.
           echo ===========================================
@@ -61,8 +60,8 @@ jobs:
         proxy_timeout: 30m
         script: |
           my_dir="$(pwd)/NFS-project"
-          rom_name="$(grep init $my_dir/build_rom.sh -m 1 | cut -d / -f 4)"
-          command="$(head $my_dir/build_rom.sh -n $(expr $(grep '# build rom' $my_dir/build_rom.sh -n | cut -f1 -d:) - 1))"
+          rom_name="$(grep init $my_dir/sparkos.sh -m 1 | cut -d / -f 4)"
+          command="$(head $my_dir/sparkos.sh -n $(expr $(grep '# build rom' $my_dir/sparkos.sh -n | cut -f1 -d:) - 1))"
           mkdir -p $my_dir/$rom_name
           cd $my_dir/$rom_name
           rm -rf .repo/local_manifests
@@ -79,8 +78,8 @@ jobs:
         proxy_timeout: 480m
         script: |
           my_dir="$(pwd)/NFS-project"
-          rom_name="$(grep init $my_dir/build_rom.sh -m 1 | cut -d / -f 4)"
-          command="$(tail $my_dir/build_rom.sh -n +$(expr $(grep 'build/envsetup.sh' $my_dir/build_rom.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')"
+          rom_name="$(grep init $my_dir/sparkos.sh -m 1 | cut -d / -f 4)"
+          command="$(tail $my_dir/sparkos.sh -n +$(expr $(grep 'build/envsetup.sh' $my_dir/sparkos.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')"
           cd $my_dir/$rom_name
           export CCACHE_EXEC=/usr/bin/ccache
           export USE_CCACHE=1
@@ -103,8 +102,8 @@ jobs:
         proxy_timeout: 10m
         script: |
           my_dir="$(pwd)/NFS-project"
-          rom_name="$(grep init $my_dir/build_rom.sh -m 1 | cut -d / -f 4)"
-          device="$(grep unch $my_dir/build_rom.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)"
+          rom_name="$(grep init $my_dir/sparkos.sh -m 1 | cut -d / -f 4)"
+          device="$(grep unch $my_dir/sparkos.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)"
           rel_date="$(date "+%Y%m%d")"
           output="out/target/product/$device/*$rel_date*.zip"
           ota="out/target/product/$device/*ota*.zip"
