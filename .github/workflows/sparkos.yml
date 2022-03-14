@@ -109,8 +109,8 @@ jobs:
           ota="out/target/product/$device/*ota*.zip"
           cd $my_dir/$rom_name
           rclone copy --drive-chunk-size 256M --stats 1s $output NFS:rom/$rom_name -P
-          echo "Download link https://needforspeed.projek.workers.dev/rom/$rom_name/$(ls $output)"
-          rm -rf out/target/product/$device
+          echo "Download link https://needforspeed.projek.workers.dev/rom/$rom_name/$(cd out/target/product/$device && ls *$rel_date*.zip)"
+          rm -rf $my_dir/$rom_name/out/target/product/$device
 
     - uses: yanzay/notify-telegram@v0.1.0
       if: always()
