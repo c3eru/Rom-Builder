@@ -27,7 +27,7 @@ jobs:
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
-          my_dir="$pwd"
+          my_dir="$(pwd)"
           cd $my_dir
           rm -rf arcana.sh
           wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/arcana.sh
@@ -62,7 +62,7 @@ jobs:
         command_timeout: 30m
         proxy_timeout: 30m
         script: |
-          my_dir="$pwd"
+          my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           command="$(head $my_dir/arcana.sh -n $(expr $(grep '# build rom' $my_dir/arcana.sh -n | cut -f1 -d:) - 1))"
           mkdir -p $my_dir/$rom_name
@@ -83,7 +83,7 @@ jobs:
         command_timeout: 480m
         proxy_timeout: 480m
         script: |
-          my_dir="$pwd"
+          my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           device=$(grep unch $my_dir/arcana.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)
           command="$(tail $my_dir/arcana.sh -n +$(expr $(grep 'build/envsetup.sh' $my_dir/arcana.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')"
@@ -109,7 +109,7 @@ jobs:
         command_timeout: 10m
         proxy_timeout: 10m
         script: |
-          my_dir="$pwd"
+          my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           device="$(grep unch $my_dir/arcana.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)"
           rel_date="$(date "+%Y%m%d")"
