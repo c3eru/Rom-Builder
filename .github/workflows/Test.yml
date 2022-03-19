@@ -11,16 +11,12 @@ jobs:
     steps:
     - name: Environment..
       uses: fifsky/ssh-action@master
-      env:
-        TG_TOKEN: ${{ secrets.TG_TOKEN }}
-        TG_ID: ${{ secrets.TG_ID }}
       with:
         host: ${{ secrets.HOST }}
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         command: |
-          export tg_token=${TG_TOKEN}
-          export tg_id=${TG_ID}
+          bash bot.sh
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
