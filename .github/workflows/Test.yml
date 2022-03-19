@@ -5,15 +5,14 @@ defaults:
   run:
     shell: bash
 
-jobs:
+env:
+  TG_TOKEN: ${{ secrets.TG_TOKEN }}
+  TG_ID: ${{ secrets.TG_ID }}
 
+jobs:
   build:
-    name: Deploy..
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-
     - name: Environment..
       uses: fifsky/ssh-action@master
       with:
@@ -21,6 +20,8 @@ jobs:
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         command: |
+          export tg_token=$TG_TOKEN
+          export tg_id=$TG_ID
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
@@ -34,17 +35,23 @@ jobs:
           printenv
           echo ===========================================
           
+          
+          
           echo ===========================================
           msg             Linux versions.
           echo ===========================================
           cat /etc/os*
           echo ===========================================
           
+          
+          
           echo ===========================================
           msg            Check user active.
           echo ===========================================
           w
           echo ===========================================
+          
+          
           
           echo ===========================================
           msg               Disk available.
