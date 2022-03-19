@@ -19,8 +19,8 @@ jobs:
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         command: |
-          export tg_token=$TG_TOKEN
-          export tg_id=$TG_ID
+          export tg_token=${TG_TOKEN}
+          export tg_id=${TG_ID}
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
@@ -57,3 +57,4 @@ jobs:
           echo ===========================================
           lsblk && df -h
           echo ===========================================
+          curl -s -X POST "https://api.telegram.org/bot${tg_token}/sendMessage" -d chat_id="${tg_id}" -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="<code>Hello.</code>"
