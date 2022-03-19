@@ -16,7 +16,7 @@ jobs:
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         command: |
-          bash bot.sh
+          ./bot.sh
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
