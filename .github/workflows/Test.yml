@@ -5,16 +5,15 @@ defaults:
   run:
     shell: bash
 
-env:
-  TG_TOKEN: ${{ secrets.TG_TOKEN }}
-  TG_ID: ${{ secrets.TG_ID }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: Environment..
       uses: fifsky/ssh-action@master
+      env:
+        TG_TOKEN: ${{ secrets.TG_TOKEN }}
+        TG_ID: ${{ secrets.TG_ID }}
       with:
         host: ${{ secrets.HOST }}
         user: ${{ secrets.USERNAME }}
@@ -30,29 +29,29 @@ jobs:
           rm -rf arcana.sh
           wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/arcana.sh
           echo ===========================================
-          msg             Linux versions.
+          msg             Environment.
           echo ===========================================
           printenv
           echo ===========================================
-          
-          
-          
+          echo
+          echo
+          echo
           echo ===========================================
           msg             Linux versions.
           echo ===========================================
           cat /etc/os*
           echo ===========================================
-          
-          
-          
+          echo
+          echo
+          echo
           echo ===========================================
           msg            Check user active.
           echo ===========================================
           w
           echo ===========================================
-          
-          
-          
+          echo
+          echo
+          echo
           echo ===========================================
           msg               Disk available.
           echo ===========================================
