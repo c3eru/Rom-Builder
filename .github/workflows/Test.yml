@@ -1,0 +1,53 @@
+name: Test
+on: 
+  workflow_dispatch:
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build:
+    name: Deploy..
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: Environment..
+      uses: fifsky/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        command: |
+          msg() {
+            echo -e "\e[1;32m$*\e[0m"
+          }
+          my_dir="$(pwd)"
+          cd $my_dir
+          rm -rf arcana.sh
+          wget https://raw.githubusercontent.com/NFS86/Rom-Builder/master/arcana.sh
+          echo ===========================================
+          msg             Linux versions.
+          echo ===========================================
+          printenv
+          echo ===========================================
+          
+          echo ===========================================
+          msg             Linux versions.
+          echo ===========================================
+          cat /etc/os*
+          echo ===========================================
+          
+          echo ===========================================
+          msg            Check user active.
+          echo ===========================================
+          w
+          echo ===========================================
+          
+          echo ===========================================
+          msg               Disk available.
+          echo ===========================================
+          lsblk && df -h
+          echo ===========================================
