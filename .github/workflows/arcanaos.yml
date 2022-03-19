@@ -6,24 +6,16 @@ defaults:
     shell: bash
 
 jobs:
-
   build:
-    name: Deploy..
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-
     - name: Environment..
-      uses: appleboy/ssh-action@master
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        timeout: 1m
-        command_timeout: 1m
-        proxy_timeout: 1m
-        script: |
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        command: |
           msg() {
             echo -e "\e[1;32m$*\e[0m"
           }
@@ -36,32 +28,31 @@ jobs:
           echo ===========================================
           cat /etc/os*
           echo ===========================================
-          
+          echo
+          echo
+          echo
           echo ===========================================
           msg            Check user active.
           echo ===========================================
           w
           echo ===========================================
-          
+          echo
+          echo
+          echo
           echo ===========================================
           msg               Disk available.
           echo ===========================================
           lsblk && df -h
           echo ===========================================
+          curl -s -X POST "https://api.telegram.org/bot${tg_token}/sendMessage" -d chat_id="${tg_id}" -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="<code>Hello.</code>"
 
     - name: Sync Rom
-      uses: appleboy/ssh-action@master
-      env:
-        tg_token: ${{ secrets.TG_TOKEN }}
-        tg_id: ${{ secrets.TG_ID }}
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        timeout: 30m
-        command_timeout: 30m
-        proxy_timeout: 30m
-        script: |
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        command: |
           my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           command="$(head $my_dir/arcana.sh -n $(expr $(grep '# build rom' $my_dir/arcana.sh -n | cut -f1 -d:) - 1))"
@@ -71,18 +62,12 @@ jobs:
           bash -c "$command" || true
 
     - name: Building Rom
-      uses: appleboy/ssh-action@master
-      env:
-        tg_token: ${{ secrets.TG_TOKEN }}
-        tg_id: ${{ secrets.TG_ID }}
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        timeout: 480m
-        command_timeout: 480m
-        proxy_timeout: 480m
-        script: |
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        command: |
           my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           device=$(grep unch $my_dir/arcana.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)
@@ -96,19 +81,15 @@ jobs:
           ccache -o limit_multiple=1
           ccache -o max_size=150G
           ccache -z
-          curl -s -X POST "https://api.telegram.org/bot${tg_token}/sendMessage" -d chat_id="${tg_id}" -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="<code>$device Starting Building Rom</code>%0A<b>$rom_name</b>"
           bash -c "$command"
 
     - name: Push Rom
-      uses: appleboy/ssh-action@master
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        timeout: 10m
-        command_timeout: 10m
-        proxy_timeout: 10m
-        script: |
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        command: |
           my_dir="$(pwd)"
           rom_name="$(grep init $my_dir/arcana.sh -m 1 | cut -d / -f 4)"
           device="$(grep unch $my_dir/arcana.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)"
@@ -119,10 +100,3 @@ jobs:
           rclone copy --drive-chunk-size 256M --stats 1s $output NFS:rom/$rom_name -P
           echo "Download link https://needforspeed.projek.workers.dev/rom/$rom_name/$(cd out/target/product/$device && ls *$rel_date*.zip)"
           rm -rf $my_dir/$rom_name/out/target/product/$device
-
-    - uses: yanzay/notify-telegram@v0.1.0
-      if: always()
-      with:
-        chat: ${{ secrets.TG_ID }} # user id or channel name secret
-        token: ${{ secrets.TG_TOKEN }} # token secret
-        status: ${{ job.status }} # do not modify this line
